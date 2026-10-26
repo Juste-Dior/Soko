@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Soko Bujumbura</title>
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#1c2a22;--mute:#667068;--g:#14683f;--g2:#0d4a2c;--gold:#f2b134;--line:#e6e1d4;--soft:#e8f3ec;--red:#c0392b;--sh:0 2px 14px rgba(20,40,30,.08);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1612;--card:#18221c;--ink:#eef2ee;--mute:#9aa89f;--g:#3fae77;--g2:#0d3a24;--line:#2a3830;--soft:#1d3226;--red:#ff7b6b;--sh:0 2px 14px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1612;--card:#18221c;--ink:#eef2ee;--mute:#9aa89f;--g:#3fae77;--g2:#0d3a24;--line:#2a3830;--soft:#1d3226;--red:#ff7b6b;--sh:0 2px 14px rgba(0,0,0,.4);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);z-index:30;background:var(--g2)}
+button,input,select{font:inherit;color:inherit}
+.hide{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding:0 14px}
+header{position:-webkit-sticky;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--g2);color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.hd{display:flex;align-items:center;gap:10px;padding:10px 0}
+.logo{font-weight:800;font-size:24px;letter-spacing:-.5px;cursor:pointer;background:none;border:0;color:#fff;padding:0}
+.logo span{color:var(--gold)}
+.search{flex:1;min-width:0;position:relative}
+.search input{width:100%;border:0;border-radius:24px;padding:10px 16px;background:rgba(255,255,255,.15);color:#fff;outline:0}
+.search input::placeholder{color:rgba(255,255,255,.7)}
+.search input:focus{background:#fff;color:#1c2a22}
+.sug{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--card);color:var(--ink);border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.3);overflow:hidden;z-index:40}
+.sug a{display:flex;align-items:center;gap:10px;padding:8px 12px;color:inherit;text-decoration:none}
+.sug a:hover{background:var(--soft)}
+.sug img,.sug i{width:42px;height:42px;border-radius:8px;object-fit:cover;flex:none;font-style:normal;display:flex;align-items:center;justify-content:center;background:var(--soft)}
+.sug small{display:block;color:var(--mute)}
+.nav{display:flex;gap:6px}
+.nb{background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:20px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.nb:hover{background:rgba(255,255,255,.25)}
+.nb b{background:var(--gold);color:#1c2a22;border-radius:10px;padding:0 7px;margin-left:4px;font-size:13px}
+.hero{background:radial-gradient(circle at 85% 20%,rgba(242,177,52,.35),transparent 45%),linear-gradient(135deg,var(--g),var(--g2));color:#fff;padding:36px 0 40px}
+.hero h1{margin:0 0 8px;font-size:clamp(26px,5vw,40px);line-height:1.1;max-width:18ch;letter-spacing:-1px}
+.hero p{margin:0;opacity:.9;max-width:46ch}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:16px 0 4px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:7px 16px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--g);color:#fff;border-color:var(--g)}
+h2{font-size:22px;margin:18px 0 10px;letter-spacing:-.3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;padding-bottom:10px}
+.card{background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column;color:inherit;text-decoration:none;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.im{width:100%;aspect-ratio:1;object-fit:cover;background:linear-gradient(135deg,var(--soft),var(--line));display:flex;align-items:center;justify-content:center;font-size:40px}
+@supports not (aspect-ratio:1){.im{height:170px}}
+.cb{padding:12px;display:flex;flex-direction:column;gap:3px}
+.pn{font-weight:600}
+.price{font-weight:800;font-size:18px;color:var(--g)}
+.mute{color:var(--mute);font-size:13px}
+.tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;background:var(--soft);color:var(--g);width:-moz-fit-content;width:fit-content}
+.tag.o{background:var(--line);color:var(--mute)}
+.box{background:var(--card);border-radius:16px;padding:18px;margin:14px 0;box-shadow:var(--sh)}
+.narrow{max-width:560px;margin-left:auto;margin-right:auto}
+.det{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+@media(max-width:700px){.det{grid-template-columns:1fr}.nav .nb span,#back span{display:none}}
+.det .im{border-radius:14px;max-height:440px;object-fit:contain}
+.btn{display:block;width:100%;border:0;border-radius:24px;padding:12px 18px;margin-top:10px;font-weight:700;cursor:pointer;background:var(--gold);color:#1c2a22;text-align:center}
+.btn:hover{filter:brightness(.95)}
+.btn.g{background:var(--g);color:#fff}
+.btn.l{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:600}
+.btn.r{background:transparent;border:1px solid var(--red);color:var(--red)}
+.btn.s{width:auto;display:inline-block;padding:6px 14px;font-size:14px;margin:0}
+.lnk{background:none;border:0;color:var(--g);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
+label{display:block;font-weight:600;margin:12px 0 4px;font-size:14px}
+input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);outline:0}
+input:focus,select:focus{border-color:var(--g)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.err{color:var(--red);font-size:13px;min-height:18px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:10px;margin:6px 0;cursor:pointer;font-weight:400}
+.opt input{width:auto;margin-top:5px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;border-top:1px solid var(--line);padding:12px 0}
+.row img,.row .im{width:72px;height:72px;aspect-ratio:auto;border-radius:10px;flex:none;font-size:24px}
+.row .in{flex:1 1 170px}
+.row select{width:76px}
+.tot{text-align:right;font-size:20px;margin:12px 0 0}
+.note{background:var(--soft);border-radius:12px;padding:10px 14px;font-size:14px;margin:12px 0}
+.subbar{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.stat{background:var(--soft);border-radius:12px;padding:12px;text-align:center;font-size:14px}
+.stat b{display:block;font-size:26px;color:var(--g)}
+footer{background:var(--g2);color:#d9e6dd;margin-top:30px;padding:34px 0 calc(18px + env(safe-area-inset-bottom,0px));font-size:14px}
+.fg{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:24px}
+@media(max-width:800px){.fg{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.fg{grid-template-columns:1fr}}
+footer h4{margin:0 0 10px;color:#fff;font-size:15px}
+footer p{margin:0 0 8px}
+footer a{color:#d9e6dd;text-decoration:none;display:block;margin-bottom:6px}
+footer a:hover{color:var(--gold)}
+.fl{font-weight:800;font-size:22px;color:#fff;margin-bottom:8px}
+.fl span{color:var(--gold)}
+.fb{border-top:1px solid rgba(255,255,255,.15);margin-top:22px;padding-top:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;opacity:.85}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));-webkit-transform:translateX(-50%);transform:translateX(-50%);background:#1c2a22;color:#fff;padding:10px 20px;border-radius:24px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:60;max-width:90%}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<header><div class="wrap hd">
+  <button class="nb hide" id="back" aria-label="Retour">← <span>Retour</span></button>
+  <button class="logo" id="logo">soko<span>.bi</span></button>
+  <div class="search" id="sb">
+    <input id="q" placeholder="Rechercher un produit…" aria-label="Rechercher" autocomplete="off">
+    <div class="sug hide" id="sug"></div>
+  </div>
+  <div class="nav">
+    <button class="nb" id="goSell">🏪 <span>Vendeur</span></button>
+    <button class="nb" id="goCart">🛒 <span>Panier</span><b id="cc">0</b></button>
+  </div>
+</div></header>
+<main id="app"></main>
+<footer><div class="wrap"><div class="fg">
+<div><div class="fl">soko<span>.bi</span></div><p>La plateforme de vente en ligne de Bujumbura : des produits de boutiques locales, livrés chez vous.</p></div>
+<div><h4>Comment ça marche</h4><p>1. Choisissez vos produits</p><p>2. Validez votre commande sur WhatsApp</p><p>3. Recevez-la à domicile</p></div>
+<div><h4>Livraison</h4><p>Bujumbura uniquement : communes de Mukaza, Muha et Ntahangwa.</p></div>
+<div><h4>Contact</h4><a href="https://wa.me/25768079041" target="_blank" rel="noopener">WhatsApp : +257 68 079 041</a><a href="#vendeur">Espace vendeur</a><a href="#admin" id="fadm" class="hide">Administration</a></div>
+</div><div class="fb"><span>© 2026 Soko Bujumbura. Tous droits réservés.</span><span>Bujumbura, Burundi</span></div></div></footer>
+<div id="toast"></div>
+
+<script>
+var WA = "25768079041";
+var CAT = { A: "Stocké chez Soko", B: "Chez le vendeur" };
+var COM = ["Mukaza", "Muha", "Ntahangwa"];
+var $ = function (i) { return document.getElementById(i); };
+var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+var money = function (n) { return Number(n).toLocaleString("fr-FR") + " FBu"; };
+function lj(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+function sj(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { toast("Stockage plein : utilisez une photo plus petite."); return false; } }
+function toast(t) { var e = $("toast"); e.textContent = t; e.className = "on"; setTimeout(function () { e.className = ""; }, 2800); }
+
+/* ===== Données ===== */
+var products = lj("soko_products", []), vendors = lj("soko_vendors", []);
+var cart = lj("soko_cart", []), sub = lj("soko_sub", null);
+var db = null, uid = "local", priv = [], isAdmin = false, first = {};
+var filt = "", pic = "", editId = null, view = "home", arg = "";
+
+function vOf(p) { return vendors.filter(function (v) { return v.id == p.vid; })[0]; }
+function pOf(id) { return products.filter(function (p) { return p.id == id; })[0]; }
+function myVendor() { return vendors.filter(function (v) { return v.id == uid; })[0]; }
+
+function putDoc(col, obj) {
+  if (db) { return db.collection(col).doc(obj.id).set(obj).catch(function () { toast("Échec de l’enregistrement en ligne."); }); }
+  var list = col == "products" ? products : vendors, i = -1;
+  list.forEach(function (x, n) { if (x.id == obj.id) i = n; });
+  if (i < 0) list.push(obj); else list[i] = obj;
+  sj("soko_" + col, list);
+}
+function delDoc(col, id) {
+  if (db) { return db.collection(col).doc(id).delete().catch(function () { toast("Échec de la suppression."); }); }
+  if (col == "products") { products = products.filter(function (p) { return p.id != id; }); sj("soko_products", products); }
+  else if (col == "vendors") { vendors = vendors.filter(function (v) { return v.id != id; }); sj("soko_vendors", vendors); }
+}
+
+/* Connexion à la base partagée (quand elle est disponible) */
+function connect() {
+  if (!window.claude) return;
+  Promise.all([claude.use("db"), claude.use("user")]).then(function (r) {
+    if (!r[0] || !r[1]) return;
+    db = r[0];
+    return r[1].id().then(function (id) {
+      uid = id;
+      var snap = function (col) {
+        db.collection(col).onSnapshot(function (s) {
+          var arr = s.docs.map(function (d) { var o = d.data(); o.id = d.id; return o; });
+          if (col == "products" && first.p && sub && window.Notification && Notification.permission == "granted") {
+            s.docChanges().forEach(function (c) {
+              if (c.type == "added") {
+                var d = c.doc.data();
+                if (d.visible) { try { new Notification("Nouveau produit sur Soko", { body: d.name + " · " + money(d.price) }); } catch (e) {} }
+              }
+            });
+          }
+          if (col == "products") { products = arr; first.p = true; }
+          else if (col == "vendors") vendors = arr;
+          else priv = arr;
+          if (!(view == "sell" && document.activeElement && /INPUT|SELECT/.test(document.activeElement.tagName))) render();
+        }, function () {});
+      };
+      snap("products"); snap("vendors");
+      isAdmin = !!r[1].canEdit(); if (isAdmin) { $("fadm").className = ""; snap("vendors_private"); }
+    });
+  }).catch(function () {});
+}
+
+/* ===== Navigation ===== */
+function route() {
+  var h = location.hash.replace("#", "");
+  if (h.indexOf("produit-") == 0) { view = "product"; arg = h.substr(8); }
+  else if (h == "panier") view = "cart";
+  else if (h == "vendeur") view = "sell";
+  else if (h == "admin") view = "admin";
+  else view = "home";
+  $("sug").className = "sug hide";
+  window.scrollTo(0, 0);
+  render();
+}
+window.onhashchange = route;
+$("logo").onclick = function () { location.hash = "accueil"; };
+$("goSell").onclick = function () { location.hash = "vendeur"; };
+$("goCart").onclick = function () { location.hash = "panier"; };
+$("back").onclick = function () { if (history.length > 1) history.back(); else location.hash = "accueil"; };
+
+/* ===== Recherche : suggestions pendant la frappe ===== */
+function matches(p, q) {
+  var v = vOf(p);
+  return p.visible && v && (p.name.toLowerCase().indexOf(q) >= 0 || String(v.shop).toLowerCase().indexOf(q) >= 0);
+}
+function sugg() {
+  var q = $("q").value.trim().toLowerCase(), box = $("sug");
+  if (!q) { box.className = "sug hide"; return; }
+  var l = products.filter(function (p) { return matches(p, q); }).slice(0, 6), h = "";
+  l.forEach(function (p) {
+    h += '<a href="#produit-' + p.id + '">' + (p.img ? '<img src="' + p.img + '" alt="">' : '<i>🛍️</i>') + '<span>' + esc(p.name) + '<small>' + money(p.price) + '</small></span></a>';
+  });
+  if (!l.length) h = '<div class="mute" style="padding:12px">Aucun produit trouvé</div>';
+  box.innerHTML = h; box.className = "sug";
+}
+$("q").oninput = function () { sugg(); if (view == "home") render(); };
+$("q").onfocus = sugg;
+$("q").onkeydown = function (e) {
+  if (e.key == "Enter") { $("sug").className = "sug hide"; if (view != "home") location.hash = "accueil"; else render(); }
+};
+$("sug").onclick = function () { this.className = "sug hide"; $("q").value = ""; if (view == "home") render(); };
+document.addEventListener("click", function (e) { if (!$("sb").contains(e.target)) $("sug").className = "sug hide"; });
+
+function render() {
+  var n = 0; cart.forEach(function (c) { n += c.q; }); $("cc").textContent = n;
+  $("back").className = view == "home" ? "nb hide" : "nb";
+  var f = { home: home, product: product, cart: cartPage, sell: sell, admin: admin }[view];
+  $("app").innerHTML = f();
+  if (view == "sell" && editId) { var e = pOf(editId); if (e && $("p_n")) { $("p_n").value = e.name; $("p_p").value = e.price; pic = e.img || ""; } }
+}
+
+function thumb(p) { return p.img ? '<img class="im" src="' + p.img + '" alt="">' : '<div class="im">🛍️</div>'; }
+
+/* ===== Abonnement aux nouveaux produits (un seul clic) ===== */
+function subBar() {
+  if (!sub) {
+    return '<div class="note subbar"><span>🔔 Soyez prévenu des nouveaux produits, en un clic.</span><button class="btn g s" data-a="sub">Je m’abonne</button></div>';
+  }
+  var n = products.filter(function (p) { return p.visible && vOf(p) && p.t > sub.seen; }).length, h = "";
+  if (n) h += '<div class="note subbar"><span>🆕 <strong>' + n + ' nouveau(x) produit(s)</strong> depuis votre dernière visite.</span><button class="btn l s" data-a="seen">OK</button></div>';
+  return h + '<div class="mute" style="padding-top:10px">🔔 Abonné aux nouveaux produits · <button class="lnk" data-a="unsub">Se désabonner</button></div>';
+}
+
+/* ===== Accueil ===== */
+function home() {
+  var raw = $("q").value.trim(), q = raw.toLowerCase();
+  var list = products.filter(function (p) {
+    var v = vOf(p);
+    return p.visible && v && (!filt || v.cat == filt) && (!q || matches(p, q));
+  }).sort(function (a, b) { return b.t - a.t; });
+  var h = '<section class="hero"><div class="wrap"><h1>Livraison à domicile</h1><p>Choisissez, commandez, on arrive.</p></div></section><div class="wrap">';
+  h += subBar();
+  h += '<div class="chips">';
+  [["", "Tous les produits"], ["A", "Stockés chez Soko"], ["B", "Chez le vendeur"]].forEach(function (c) {
+    h += '<button class="chip' + (filt == c[0] ? " on" : "") + '" data-a="chip" data-f="' + c[0] + '">' + c[1] + '</button>';
+  });
+  h += '</div><h2>' + (q ? 'Résultats pour « ' + esc(raw) + ' »' : 'Produits') + '</h2>';
+  if (!list.length) h += '<div class="box mute">Aucun produit pour le moment. Les vendeurs peuvent publier depuis « Vendeur ».</div>';
+  else {
+    h += '<div class="grid">';
+    list.forEach(function (p) {
+      var v = vOf(p);
+      h += '<a class="card" href="#produit-' + p.id + '">' + thumb(p) + '<div class="cb"><span class="pn">' + esc(p.name) + '</span><span class="price">' + money(p.price) + '</span><span class="tag' + (v.cat == "B" ? " o" : "") + '">' + CAT[v.cat] + '</span><span class="mute">' + esc(v.shop) + '</span></div></a>';
+    });
+    h += '</div>';
+  }
+  return h + '</div>';
+}
+
+/* ===== Formulaire de commande ===== */
+function orderForm(pre) {
+  var h = '<label for="' + pre + 'n">Votre nom</label><input id="' + pre + 'n" autocomplete="name">';
+  h += '<label for="' + pre + 't">Votre numéro de téléphone</label><input id="' + pre + 't" type="tel" autocomplete="tel" placeholder="+257 …">';
+  h += '<label for="' + pre + 'c">Commune (Bujumbura)</label><select id="' + pre + 'c"><option value="">Choisir…</option>';
+  COM.forEach(function (c) { h += '<option>' + c + '</option>'; });
+  return h + '</select><label for="' + pre + 'a">Quartier / adresse précise</label><input id="' + pre + 'a"><div class="mute" style="margin-top:6px">Vos informations servent uniquement à traiter votre commande.</div><div class="err" id="' + pre + 'e"></div>';
+}
+function sendOrder(pre, items) {
+  var name = $(pre + "n").value.trim(), tel = $(pre + "t").value.trim(), com = $(pre + "c").value, adr = $(pre + "a").value.trim();
+  if (!name || !com || !adr) { $(pre + "e").textContent = "Remplissez toutes les cases. Livraison seulement à Bujumbura."; return; }
+  if (!/^\+?[0-9 ]{8,15}$/.test(tel)) { $(pre + "e").textContent = "Entrez un numéro de téléphone valide."; return; }
+  var total = 0, msg = "Bonjour Soko, je veux commander :\n";
+  items.forEach(function (it) {
+    var v = vOf(it.p); total += it.p.price * it.q;
+    msg += "- " + it.p.name + " x" + it.q + " = " + money(it.p.price * it.q) + " (vendeur : " + (v ? v.shop : "") + ")\n";
+  });
+  msg += "Total : " + money(total) + "\nNom : " + name + "\nTéléphone : " + tel + "\nLivraison : " + com + ", " + adr + ", Bujumbura";
+  window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(msg), "_blank");
+}
+function qtyOpts(sel) { var h = ""; for (var i = 1; i <= 10; i++) h += '<option' + (i == sel ? " selected" : "") + '>' + i + '</option>'; return h; }
+
+/* ===== Fiche produit ===== */
+function product() {
+  var p = pOf(arg), v = p && vOf(p);
+  if (!p || !v || !p.visible) return '<div class="wrap"><div class="box">Ce produit n’est plus disponible. <a href="#accueil">Retour à l’accueil</a></div></div>';
+  var h = '<div class="wrap"><div class="box"><div class="det"><div>' + thumb(p) + '</div><div>';
+  h += '<h1 style="margin:0 0 4px;font-size:26px">' + esc(p.name) + '</h1><div class="mute">Vendeur : ' + esc(v.shop) + '</div>';
+  h += '<div class="price" style="font-size:28px;margin:8px 0">' + money(p.price) + '</div><span class="tag' + (v.cat == "B" ? " o" : "") + '">' + CAT[v.cat] + '</span>';
+  h += '<div class="note">🚚 Livraison à domicile, uniquement à Bujumbura</div>';
+  h += '<label for="qty">Quantité</label><select id="qty" style="width:90px">' + qtyOpts(1) + '</select>';
+  h += '<button class="btn" data-a="add" data-i="' + p.id + '">Ajouter au panier</button>';
+  h += '<button class="btn g" data-a="buy" id="buyBtn">Commander maintenant</button>';
+  h += '<div id="buyForm" class="hide">' + orderForm("o_") + '<button class="btn g" data-a="send1" data-i="' + p.id + '">Envoyer la commande</button></div>';
+  return h + '</div></div></div></div>';
+}
+
+/* ===== Panier ===== */
+function cartItems() {
+  var out = [];
+  cart.forEach(function (c) { var p = pOf(c.id); if (p && p.visible) out.push({ p: p, q: c.q }); });
+  return out;
+}
+function cartPage() {
+  var items = cartItems();
+  if (!items.length) return '<div class="wrap"><div class="box"><h2 style="margin-top:0">Votre panier est vide</h2><a class="btn" href="#accueil" style="text-decoration:none">Continuer vos achats</a></div></div>';
+  var total = 0, h = '<div class="wrap"><div class="box"><h2 style="margin-top:0">Panier</h2>';
+  items.forEach(function (it) {
+    total += it.p.price * it.q;
+    h += '<div class="row">' + thumb(it.p) + '<div class="in"><strong>' + esc(it.p.name) + '</strong><br><span class="price">' + money(it.p.price) + '</span></div>';
+    h += '<select data-q="' + it.p.id + '">' + qtyOpts(it.q) + '</select><button class="btn r s" data-a="rm" data-i="' + it.p.id + '">Supprimer</button></div>';
+  });
+  h += '<div class="tot">Total : <strong>' + money(total) + '</strong></div></div>';
+  h += '<div class="box"><h2 style="margin-top:0">Livraison à Bujumbura</h2>' + orderForm("c_") + '<button class="btn g" data-a="sendC">Commander (' + money(total) + ')</button></div></div>';
+  return h;
+}
+
+/* ===== Espace vendeur ===== */
+function sell() {
+  var v = myVendor(), h = '<div class="wrap">';
+  if (!db) h += '<div class="note">Mode local : vos produits restent dans ce navigateur. Ouvrez le site connecté pour les partager en ligne.</div>';
+  if (!v) {
+    h += '<div class="box narrow"><h2 style="margin-top:0">Créer ma boutique</h2><p class="mute">Une seule fois. Vos coordonnées servent à Soko pour vous contacter ; elles ne sont pas affichées aux clients.</p>';
+    h += '<label for="r_shop">Nom de la boutique</label><input id="r_shop"><div class="two"><div><label for="r_tel">Téléphone</label><input id="r_tel" type="tel" placeholder="+257 …"></div>';
+    h += '<div><label for="r_com">Commune</label><select id="r_com"><option value="">Choisir…</option>' + COM.map(function (c) { return "<option>" + c + "</option>"; }).join("") + '<option>Bujumbura Rural</option></select></div></div>';
+    h += '<label>Où stocker vos produits ?</label>';
+    h += '<label class="opt"><input type="radio" name="cat" value="A"><span><strong>Stock chez Soko</strong><br><span class="mute">Vous nous confiez vos produits, nous les stockons et les livrons.</span></span></label>';
+    h += '<label class="opt"><input type="radio" name="cat" value="B"><span><strong>Stock chez moi</strong><br><span class="mute">Vos produits restent chez vous, vous préparez les commandes.</span></span></label>';
+    return h + '<div class="err" id="r_err"></div><button class="btn g" data-a="regV">Créer ma boutique</button></div></div>';
+  }
+  var mine = products.filter(function (p) { return p.vid == uid; });
+  h += '<div class="box"><h2 style="margin:0">' + esc(v.shop) + '</h2><div class="mute">' + (v.tel ? esc(v.tel) + ' · ' + esc(v.com) : 'Vos coordonnées restent privées.') + '</div><span class="tag' + (v.cat == "B" ? " o" : "") + '">' + CAT[v.cat] + '</span></div>';
+  h += '<div class="box"><h3 style="margin-top:0">' + (editId ? "Modifier le produit" : "Ajouter un produit") + '</h3><div class="two"><div><label for="p_n">Nom du produit</label><input id="p_n"></div>';
+  h += '<div><label for="p_p">Prix (FBu)</label><input id="p_p" type="number" min="1"></div></div><label for="p_f">Photo</label><input id="p_f" type="file" accept="image/*">';
+  h += '<div class="err" id="p_err"></div><button class="btn g s" data-a="saveP" style="margin-top:6px">' + (editId ? "Enregistrer" : "Publier") + '</button> ';
+  if (editId) h += '<button class="btn l s" data-a="cancel">Annuler</button>';
+  h += '</div><div class="box"><h3 style="margin-top:0">Mes produits (' + mine.length + ')</h3>';
+  if (!mine.length) h += '<p class="mute">Aucun produit. Ajoutez le premier ci-dessus.</p>';
+  mine.forEach(function (p) {
+    var b = function (a, t, c) { return '<button class="btn ' + (c || "l") + ' s" data-a="' + a + '" data-i="' + p.id + '">' + t + '</button> '; };
+    h += '<div class="row">' + thumb(p) + '<div class="in"><strong>' + esc(p.name) + '</strong><br><span class="price">' + money(p.price) + '</span> <span class="tag' + (p.visible ? "" : " o") + '">' + (p.visible ? "Visible" : "Masqué") + '</span></div>';
+    h += b("vis", p.visible ? "Masquer" : "Afficher") + b("ed", "Modifier") + b("del", "Supprimer", "r") + '</div>';
+  });
+  return h + '</div></div>';
+}
+
+/* ===== Administration : visible par vous seulement ===== */
+function admin() {
+  if (db && !isAdmin) return home();
+  var vis = products.filter(function (p) { return p.visible; }).length;
+  var h = '<div class="wrap"><div class="box"><h2 style="margin-top:0">Administration</h2><p class="mute">Cette page n’est visible que par vous.</p>';
+  h += '<div class="stats"><div class="stat"><b>' + vendors.length + '</b>Vendeurs</div><div class="stat"><b>' + products.length + '</b>Produits</div><div class="stat"><b>' + vis + '</b>Visibles</div></div></div>';
+  h += '<div class="box"><h3 style="margin-top:0">Vendeurs</h3>';
+  if (!vendors.length) h += '<p class="mute">Aucun vendeur inscrit.</p>';
+  vendors.forEach(function (v) {
+    var x = priv.filter(function (p) { return p.id == v.id; })[0] || v;
+    var n = products.filter(function (p) { return p.vid == v.id; }).length;
+    h += '<div class="row"><div class="in"><strong>' + esc(v.shop) + '</strong><br><span class="mute">' + esc(x.tel) + ' · ' + esc(x.com) + ' · ' + n + ' produit(s)</span></div><span class="tag' + (v.cat == "B" ? " o" : "") + '">' + CAT[v.cat] + '</span><button class="btn r s" data-a="delV" data-i="' + v.id + '">Supprimer</button></div>';
+  });
+  h += '</div><div class="box"><h3 style="margin-top:0">Tous les produits</h3>';
+  if (!products.length) h += '<p class="mute">Aucun produit.</p>';
+  products.forEach(function (p) {
+    var vd = vOf(p) || {};
+    h += '<div class="row">' + thumb(p) + '<div class="in"><strong>' + esc(p.name) + '</strong><br><span class="price">' + money(p.price) + '</span> <span class="mute">' + esc(vd.shop) + '</span> <span class="tag' + (p.visible ? "" : " o") + '">' + (p.visible ? "Visible" : "Masqué") + '</span></div>';
+    h += '<button class="btn l s" data-a="vis" data-i="' + p.id + '">' + (p.visible ? "Masquer" : "Afficher") + '</button> <button class="btn r s" data-a="del" data-i="' + p.id + '">Supprimer</button></div>';
+  });
+  return h + '</div></div>';
+}
+
+/* ===== Actions (clics) ===== */
+var A = {
+  chip: function (t) { filt = t.dataset.f; render(); },
+  sub: function () {
+    sub = { seen: Date.now() }; sj("soko_sub", sub);
+    try { if (window.Notification && Notification.permission == "default") Notification.requestPermission(); } catch (e) {}
+    toast("Abonné ✓ Vous serez prévenu des nouveaux produits."); render();
+  },
+  unsub: function () { sub = null; try { localStorage.removeItem("soko_sub"); } catch (e) {} render(); },
+  seen: function () { sub.seen = Date.now(); sj("soko_sub", sub); render(); },
+  add: function (t) {
+    var q = Number($("qty").value), id = t.dataset.i, f = false;
+    cart.forEach(function (c) { if (c.id == id) { c.q += q; f = true; } });
+    if (!f) cart.push({ id: id, q: q });
+    sj("soko_cart", cart); render(); toast("Ajouté au panier ✓");
+  },
+  buy: function (t) { $("buyForm").className = ""; t.className = "btn g hide"; },
+  send1: function (t) { sendOrder("o_", [{ p: pOf(t.dataset.i), q: Number($("qty").value) }]); },
+  sendC: function () { sendOrder("c_", cartItems()); },
+  rm: function (t) { cart = cart.filter(function (c) { return c.id != t.dataset.i; }); sj("soko_cart", cart); render(); },
+  regV: function () {
+    var shop = $("r_shop").value.trim(), tel = $("r_tel").value.trim(), com = $("r_com").value, r = document.querySelector('input[name="cat"]:checked');
+    if (!shop || !/^\+?[0-9 ]{8,15}$/.test(tel) || !com || !r) { $("r_err").textContent = "Remplissez toutes les cases (téléphone valide, catégorie choisie)."; return; }
+    var pub = { id: uid, shop: shop, cat: r.value };
+    if (db) { putDoc("vendors", pub); putDoc("vendors_private", { id: uid, tel: tel, com: com }); }
+    else { pub.tel = tel; pub.com = com; putDoc("vendors", pub); render(); }
+    toast("Boutique créée !");
+  },
+  saveP: function () {
+    var name = $("p_n").value.trim(), price = Number($("p_p").value);
+    if (!name || !price || !pic) { $("p_err").textContent = "Nom, prix et photo sont obligatoires."; return; }
+    var p = editId ? pOf(editId) : { id: "p" + Date.now(), vid: uid, visible: true, t: Date.now() };
+    p.name = name; p.price = price; p.img = pic;
+    toast(editId ? "Produit modifié." : "Produit publié.");
+    editId = null; pic = "";
+    putDoc("products", p);
+    if (!db) render();
+  },
+  cancel: function () { editId = null; render(); },
+  ed: function (t) { editId = t.dataset.i; render(); window.scrollTo(0, 0); },
+  vis: function (t) { var p = pOf(t.dataset.i); p.visible = !p.visible; putDoc("products", p); if (!db) render(); },
+  del: function (t) { if (!confirm("Supprimer ce produit ?")) return; delDoc("products", t.dataset.i); if (!db) render(); },
+  delV: function (t) {
+    var id = t.dataset.i;
+    if (!confirm("Supprimer cette boutique et tous ses produits ?")) return;
+    products.filter(function (p) { return p.vid == id; }).forEach(function (p) { delDoc("products", p.id); });
+    delDoc("vendors", id);
+    if (db) delDoc("vendors_private", id); else render();
+  }
+};
+$("app").onclick = function (e) { var t = e.target.closest("[data-a]"); if (t && A[t.dataset.a]) A[t.dataset.a](t); };
+$("app").onchange = function (e) {
+  var t = e.target;
+  if (t.dataset && t.dataset.q) { cart.forEach(function (c) { if (c.id == t.dataset.q) c.q = Number(t.value); }); sj("soko_cart", cart); render(); }
+  if (t.id == "p_f" && t.files[0]) {
+    var rd = new FileReader();
+    rd.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var s = Math.min(1, 520 / im.width), cv = document.createElement("canvas");
+        cv.width = im.width * s; cv.height = im.height * s;
+        cv.getContext("2d").drawImage(im, 0, 0, cv.width, cv.height);
+        pic = cv.toDataURL("image/jpeg", 0.65);
+        toast("Photo prête ✓");
+      };
+      im.src = rd.result;
+    };
+    rd.readAsDataURL(t.files[0]);
+  }
+};
+
+route();
+connect();
+</script>
+</body>
+</html>
